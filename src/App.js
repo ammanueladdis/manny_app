@@ -5,35 +5,39 @@ import './App.css';
 import UserForm from './Components/UserForm';
 
 class App extends Component {
-  state = {
-    repos: null
-  }
-  getUser = (e) => {
-    e.preventDefault();
-    const user = e.target.elements.username.value;
-    if (user) {
-      axios.get(`https://api.github.com/users/${user}`)
-      .then((res) => {
-        const repos = res.data.public_repos;
-  
-        /* below line is a shorthand alternative to this.setState({ repos: repos }) - this only works because the property and variable have same name */
-        this.setState({ repos })
-         
-      })
+  constructor() {
+    super()
+    this.state={
+      movies:[]
     }
-    else return;
+
+    this.onSubmit = this.onSubmit.bind(this);
   }
+
+  onSubmit(event){
+    event.preventDefault();
+    var query = this.input.value;
+    console.log(query);
+  }
+
+  componentDidMount(query){
+    var api = 'https://themoviedb.org/3/search/movie?api_key=98e29b7ce43f0e1d5ee589664b968f3e&query='
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">         
-          <h1 className="App-title">HTTP Calls in React</h1>
-        </header>
-        <UserForm getUser={this.getUser} />
-
-        {/* Sneaky ternary code below is alternative to if statement - checks if this.state.repos is true and then if true it displays the first option */} 
-        { this.state.repos ? <p>Number of repos: { this.state.repos }</p> : <p>Please enter a username in the form above</p> }
-                
+        <div className="jumbotron">
+          <div className="container">
+            <div className="row">
+              <h2 className="col-12 text-center">Search for a Movie</h2>
+                <form onSubmit={this.onSubmit} className="col-12">
+                  <input className="col-12 form-control" placeholder="Search Movies..."
+                  ref = {input => this.input = input}/>
+                </form>
+            </div>
+          </div>        
+        </div>
       </div>
     );
   }
