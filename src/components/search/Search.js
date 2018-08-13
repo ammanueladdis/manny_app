@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
-import axios from "axios";
 import MenuItem from 'material-ui/MenuItem';
+import axios from 'axios';
+import ImageResults from '../image-results/ImageResults';
 
 class Search extends Component {
 
 	state = {
-		searchTest: '',
+		searchText: '',
 		amount: 15,
 		apiUrl: 'https://pixabay.com/api',
 		apiKey: '9806944-ca6dcf6785ac26d10f7bbb374',
@@ -26,6 +27,8 @@ class Search extends Component {
 				.catch(err => console.log(err));
 		});
 	};
+
+	onAmountChange = (e, index, value) => this.setState({ amount: value });
 
 	render() {
 		console.log(this.state)
@@ -50,8 +53,9 @@ class Search extends Component {
 						<MenuItem value={15} primaryText="15" />
 						<MenuItem value={30} primaryText="30" />
 						<MenuItem value={50} primaryText="50" />
-				</SelectField>
-			<br />
+					</SelectField>
+				<br />
+				{this.state.images.length > 0 ? (<ImageResults images={this.state.images} />) : null}
 			</div>
 		)
 	}
