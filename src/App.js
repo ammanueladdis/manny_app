@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
 
+// Code playground
+const user = {
+  firstname: 'Robin',
+  lastname: 'Wieruch'
+};
+
+const { firstname, lastname } = user
+console.log(firstname + ' ' + lastname);
+
+
+
+
+// real deal
 const list = [
   {
     title: 'React',
@@ -26,9 +39,11 @@ class App extends Component {
 
     this.state = {
       list,
+      searchTerm: '',
     };
 
     this.onDismiss = this.onDismiss.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   onDismiss(id) {
@@ -37,10 +52,27 @@ class App extends Component {
     this.setState({ list: updatedList });  
   }
 
-  render() {  
+  onSearchChange(event) {
+    this.setState({ searchTerm: event.target.value })
+  } 
+
+  render() {
+
+    const { searchTerm, list } = this.state;
+
+    const isSearched = searchTerm => item =>
+      item.title.toLowerCase().includes(searchTerm.toLowerCase());  
+
     return (
       <div className="App">
-        {this.state.list.map(item =>          
+        <form>
+          <input 
+            type="text" 
+            onChange={this.onSearchChange}
+          />
+        </form>
+
+        {list.filter(isSearched(searchTerm)).map(item =>          
           <div key={item.objectID}>
             <span>
               <a href={item.url}>{item.title}</a>
@@ -58,6 +90,8 @@ class App extends Component {
             </span>
           </div>
         )}
+
+        <h1>{this.state.searchTerm}</h1>
       </div>
     );    
   }
