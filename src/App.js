@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Table } from 'material-ui';
 
 // Code playground
 const user = {
@@ -65,6 +66,19 @@ class App extends Component {
 
     return (
       <div className="App">
+
+        <Search
+          value={searchTerm}
+          onChange={this.onSearchChange}
+        />
+
+        <Table
+          list={list}
+          pattern={searchTerm}
+          onDismiss={this.onDismiss}
+        />
+        
+
         <form>
           <input 
             type="text" 
@@ -96,5 +110,33 @@ class App extends Component {
     );    
   }
 }
+
+class Search extends Component {
+  render() {
+    const { value, onChange } = this.props;    
+    return (
+      <form>
+        <input
+          type="text"
+          value={value}
+          onChange={onChange}
+        />
+      </form>
+     
+    );
+  }
+}
+
+class Table2 extends Component {
+  const { list}
+  render() {
+    return (
+      <div>
+        
+      </div>
+    );
+  }
+}
+
 
 export default App;
