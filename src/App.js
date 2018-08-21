@@ -11,6 +11,9 @@ const user = {
 const { firstname, lastname } = user
 console.log(firstname + ' ' + lastname);
 
+const isSearched = searchTerm => item =>
+  item.title.toLowerCase().includes(searchTerm.toLowerCase());
+
 
 
 
@@ -60,50 +63,21 @@ class App extends Component {
   render() {
 
     const { searchTerm, list } = this.state;
-
-    const isSearched = searchTerm => item =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase());  
-
     return (
       <div className="App">
 
         <Search
           value={searchTerm}
           onChange={this.onSearchChange}
-        />
+        >
+          Search
+        </Search>
 
-        <Table
+        <Table2
           list={list}
           pattern={searchTerm}
           onDismiss={this.onDismiss}
-        />
-        
-
-        <form>
-          <input 
-            type="text" 
-            onChange={this.onSearchChange}
-          />
-        </form>
-
-        {list.filter(isSearched(searchTerm)).map(item =>          
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <button
-                onClick={() => this.onDismiss(item.objectID)}
-                type="buton"
-              >
-                Dismiss
-              </button>
-            </span>
-          </div>
-        )}
+        />        
 
         <h1>{this.state.searchTerm}</h1>
       </div>
@@ -113,10 +87,10 @@ class App extends Component {
 
 class Search extends Component {
   render() {
-    const { value, onChange } = this.props;    
+    const { value, onChange, children } = this.props;    
     return (
       <form>
-        <input
+        {children} <input
           type="text"
           value={value}
           onChange={onChange}
@@ -127,13 +101,48 @@ class Search extends Component {
   }
 }
 
-class Table2 extends Component {
-  const { list}
+class Table2 extends Component {  
   render() {
+    const { list, pattern, onDismiss } = this.props;
     return (
       <div>
-        
+        {list.filter(isSearched(pattern)).map(item =>
+          <div key={item.objectID}>
+            <span>
+              <a href={item.url}>{item.title}</a>              
+            </span>
+            <span>{item.author}</span>
+            <span>{item.num_comments}</span>
+            <span>{item.points}</span>
+            <span>
+              <Button onClick={() => onDismiss(item.objectID)}>              
+                Dismiss
+              </Button>
+            </span>
+          </div>        
+        )}        
       </div>
+    );
+  }
+}
+
+
+class Button extends Component {
+  render() {
+    const {
+      onClick,
+      className = '',
+      children,
+    } = this.props;
+
+    return (
+      <button
+        onClick={onClick}
+        className={className}
+        type="button"
+      >
+        {children}
+      </button>
     );
   }
 }
