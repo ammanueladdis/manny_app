@@ -109,17 +109,17 @@ const Table2 = ({ list, pattern, onDismiss }) =>
         <span style={{ width: '10%' }}>
           {item.num_comments}
         </span>
-        <span>{item.points}</span>
-        <span>
+        <span style={{ width: '10%' }}>
+          {item.points}
+        </span>
+        <span style={{ width: '10%'}}>
           <Button
-            onClick={()}
-          
+            onClick={() => onDismiss(item.objectID)}
+            className="button-inline"
           >
-          
+            Dismiss
           </Button>
         </span>
-
-
       </div>   
     )}  
   </div>
